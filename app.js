@@ -42,6 +42,17 @@ app.get('/api/posts', (req, res) => {
 
 })
 
+// Get single post
+app.get('/api/posts/:id', (req, res) => {
+    // static method available from the mongoose Post class
+    Post.find({_id: req.params.id}).then(document => {
+        res.status(200).json(document);
+        })
+        .catch(() => {
+            console.log('No post with that id found');
+        });
+})
+
 // Delete route for posts
 app.delete('/api/posts/:id', (req, res) => {
     Post.deleteOne({_id: req.params.id}).then(result => {
