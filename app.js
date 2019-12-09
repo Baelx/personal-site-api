@@ -3,8 +3,8 @@ const bodyParser = require('body-parser');
 const app = express()
 const port = 3000
 const db = require('./db');
-
-const Post = require('./models/post');
+const postsRoutes = require('./routes/posts');
+const userRoutes = require('./routes/user');
 
 app.use(bodyParser.json());
 
@@ -15,50 +15,8 @@ app.use((req, res, next) => {
     next();
 })
 
-// Post route for posts
-app.post('/api/posts', (req, res, next) => {
-    const post = new Post({
-        title: req.body.title,
-        content: req.body.content
-    });
-    post.save().then(createdPost => {
-        res.status(201).json({
-            message: 'Post added successfully',
-            postId: createdPost._id
-        })
-    });
-});
+app.use("/api/posts", postsRoutes);
+app.use("/api/user", userRoutes);
 
-// Get route for posts
-app.get('/api/posts', (req, res) => {
-    // static method available from the mongoose Post class
-    Post.find().then(documents => {
-    res.status(200).json(documents);
-    })
-    .catch(() => {
-        console.log('No documents found');
-        
-    });
 
-})
-
-// Get single post
-app.get('/api/posts/:id', (req, res) => {
-    // static method available from the mongoose Post class
-    Post.find({_id: req.params.id}).then(document => {
-        res.status(200).json(document);
-        })
-        .catch(() => {
-            console.log('No post with that id found');
-        });
-})
-
-// Delete route for posts
-app.delete('/api/posts/:id', (req, res) => {
-    Post.deleteOne({_id: req.params.id}).then(result => {
-        console.log(result);
-        res.status(200).json({message: 'post deleted'});
-    })
-})
-
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () => console.log(`App running on port ${port}!`))
