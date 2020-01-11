@@ -7,7 +7,9 @@ const Post = require('../models/post');
 router.post('', (req, res, next) => {
     const post = new Post({
         title: req.body.title,
-        content: req.body.content
+        content: req.body.content,
+        summary: req.body.summary,
+        categories: req.body.categories
     });
     post.save().then(createdPost => {
         res.status(201).json({
