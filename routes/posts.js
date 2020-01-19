@@ -9,7 +9,8 @@ router.post('', (req, res, next) => {
         title: req.body.title,
         content: req.body.content,
         summary: req.body.summary,
-        categories: req.body.categories
+        categories: req.body.categories,
+        publishDate: req.body.publishDate,
     });
     post.save().then(createdPost => {
         res.status(201).json({
