@@ -4,7 +4,7 @@ const postSchema = mongoose.Schema({
     title: { type: String, required: true },
     content: { type: String, required: true },
     summary: { type: String, required: true},
-    categories: { type: Array, required: true },
+    category: { type: String, required: true },
     publishDate: { type: Date, required: true }
 });
 
